@@ -20,11 +20,12 @@ public class GestorResource {
     @Autowired
     private GestorRepository repository;
 
+    //Metodo para listar todos os getores
     @GetMapping
     public ResponseEntity<List<GestorModel>> getAll() {
         return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
     }
-
+    //Metodo para listar um unico gestor
     @GetMapping("{id}")  // listar id unico
     public ResponseEntity<GestorModel> getOne(@PathVariable Integer id) {
         Optional<GestorModel> gestor = repository.findById(id);
