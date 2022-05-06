@@ -1,0 +1,54 @@
+.container-crud{
+    width: 1000px;
+    margin: 45px auto 0 auto;
+}
+
+.container-lista-gestores {
+    width: 1000px;
+    height: 600px;
+    /* margin: 150px auto 0 auto; */
+    box-shadow: 1px 1px 15px rgba(0, 0, 0, .2);
+    border-radius: 10px;
+    background-color: white;
+    overflow: hidden;
+}
+
+.titulo-crud, .titulo-tabela {
+    font-weight: lighter;
+    color: rgb(103, 103, 103);
+}
+
+.titulo-tabela { margin-bottom: 0;}
+
+.tabela-gestores {
+    width: 100%;
+}
+
+.container-lista-gestores-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* Linha divisora header listagem */
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(0,0,0,.12);
+    padding: 20px 25px 20px 25px;
+    background-image: linear-gradient(199deg, #84fab0 0%, #8fd3f4 100%);
+}
+
+.container-cadastro-gestor {
+    padding: 40px;
+}
+
+.btn-centralizado-formulario {
+    display: block;
+    margin: 170px auto 0 auto;
+}
+
+.container-lista-rolavel {
+    width: 100%;
+    padding: 0 40px 40px 40px;
+    overflow-y: scroll;
+    height: 520px;
+}

@@ -1,0 +1,149 @@
+<div class="container-crud">
+    <h1 class="titulo-crud" *ngIf="!isEditando; else tituloEditarGestor">
+       {{ !exibirFormulario ? 'Listagem de Gestores' : 'Cadastrar Gestor'}}
+    </h1>
+
+   <ng-template #tituloEditarGestor>
+    <h1 class="titulo-crud">
+      Editar Gestor
+   </h1>
+   </ng-template>
+
+    <div class="container-lista-gestores">
+  
+      <div class="container-lista-gestores-header">
+
+        <h2 class="titulo-tabela">
+            {{ !exibirFormulario ? 'Gestores' : 'Formulário'}}
+        </h2>
+
+        <button (click)="!exibirFormulario ? exibirFormularioGestor() : exibirListagemGestor()" class="btn-novo-gestor" 
+          mat-flat-button color="primary">
+          {{ exibirFormulario ? 'Voltar' : 'Novo Gestor' }}
+        </button>
+      </div>
+
+      <div *ngIf="!exibirFormulario" class="container-lista-rolavel">
+        <table *ngIf="!exibirFormulario" mat-table [dataSource]="dadosGestor" class="tabela-gestores">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>Id</th>
+            <td mat-cell *matCellDef="let gestor"> {{ gestor.id }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="nome">
+            <th mat-header-cell *matHeaderCellDef>Nome</th>
+            <td mat-cell *matCellDef="let gestor"> {{ gestor.nome }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="matricula">
+            <th mat-header-cell *matHeaderCellDef>Matrícula</th>
+            <td mat-cell *matCellDef="let gestor"> {{ gestor.matricula }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="dataNascimento">
+            <th mat-header-cell *matHeaderCellDef>Data Nascimento</th>
+            <td mat-cell *matCellDef="let gestor"> {{ gestor.dataNascimento | date: 'dd/MM/y' }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="setor">
+            <th mat-header-cell *matHeaderCellDef>Setor</th>
+            <td mat-cell *matCellDef="let gestor"> {{ gestor.setor }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="editar">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let gestor">
+              <button mat-icon-button (click)="editarDadosGestor(gestor)">
+              <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon> 
+            </button>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="excluir">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let gestor">    
+              <button mat-icon-button (click)="excluirGestor(gestor.id)">
+                <mat-icon>close</mat-icon> 
+              </button>
+            </td>
+          </ng-container>
+    
+          <tr mat-header-row *matHeaderRowDef="['id', 'nome', 'matricula', 'dataNascimento', 'setor', 'editar', 'excluir']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['id', 'nome', 'matricula', 'dataNascimento', 'setor', 'editar', 'excluir'];"></tr>
+    
+        </table>
+      </div>
+
+      <div *ngIf="exibirFormulario" class="container-cadastro-gestor">
+        <form [formGroup]="formGestor" (submit)="salvarGestor($event)">
+          
+             <input type="hidden" formControlName="id" />
+        
+          <mat-grid-list cols="3" rowHeight="fit" [style.height.px]="75" gutterSize="40px">
+
+            <mat-grid-tile colspan="2">
+              <mat-form-field appearance="outline" [style.width.%]="100">
+                <mat-label>Nome</mat-label>
+                <mat-hint>Nome completo</mat-hint>
+                <input matInput formControlName="nome" />
+              </mat-form-field>
+            </mat-grid-tile>
+  
+            <mat-grid-tile colspan="1">
+              <mat-form-field appearance="outline" [style.width.%]="100">
+                <mat-label>Data de Nascimento</mat-label>
+                <input formControlName="dataNascimento" matInput [matDatepicker]="picker">
+                <mat-hint>DD/MM/AAAA</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </mat-grid-tile>
+            
+          </mat-grid-list>
+  
+          <mat-grid-list cols="2" rowHeight="fit" 
+            [style.height.px]="75" gutterSize="40px"
+            [style.marginTop.px]="40">
+  
+            <mat-grid-tile>
+              <mat-form-field appearance="outline" [style.width.%]="100">
+                <mat-label>Matrícula</mat-label>
+                <mat-hint>Máx. 9 caracteres</mat-hint>
+                <input  maxlength="9" formControlName="matricula" matInput />
+              </mat-form-field>
+            </mat-grid-tile>
+  
+            <mat-grid-tile>
+              <mat-form-field appearance="outline" [style.width.%]="100">
+                <mat-label>Setor</mat-label>
+                <mat-select formControlName="setor">
+                  <mat-option value="Tecnologia">Tecnologia</mat-option>
+                  <mat-option value="Administrativo">Administrativo</mat-option>
+                  <mat-option value="Recursos Humanos">Recursos Humanos</mat-option>
+                  <mat-option value="Help Desk">Help Desk</mat-option>
+                </mat-select>
+                <mat-hint>Escolha o Setor</mat-hint>
+              </mat-form-field>
+            </mat-grid-tile>
+            
+          </mat-grid-list>
+
+          <button *ngIf="!isEditando; else btnSalvar"
+            mat-stroked-button color="primary" 
+            class="btn-centralizado-formulario">
+            Cadastrar
+          </button>
+
+          <ng-template #btnSalvar>
+              <button  mat-stroked-button color="primary" 
+                class="btn-centralizado-formulario">
+                Salvar
+               </button>
+          </ng-template>
+
+        </form>
+      </div>
+
+    </div>
+
+  </div>
