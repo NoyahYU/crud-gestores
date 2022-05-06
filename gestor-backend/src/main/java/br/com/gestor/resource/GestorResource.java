@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping (path = "/gestores") // listar todos os gestores
+@RequestMapping(path = "/gestores") // listar todos os gestores
 public class GestorResource {
     @Autowired
     private GestorRepository repository;
@@ -25,6 +25,7 @@ public class GestorResource {
     public ResponseEntity<List<GestorModel>> getAll() {
         return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
     }
+
     //Metodo para listar um unico gestor
     @GetMapping("{id}")  // listar id unico
     public ResponseEntity<GestorModel> getOne(@PathVariable Integer id) {
@@ -41,9 +42,9 @@ public class GestorResource {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<GestorModel> alterarGestor(@PathVariable(value = "id") Integer id, @Validated @RequestBody GestorModel newGestor){
-            Optional<GestorModel> oldGestor = repository.findById(id);
-        if (oldGestor.isPresent()){
+    public ResponseEntity<GestorModel> alterarGestor(@PathVariable(value = "id") Integer id, @Validated @RequestBody GestorModel newGestor) {
+        Optional<GestorModel> oldGestor = repository.findById(id);
+        if (oldGestor.isPresent()) {
             GestorModel gestor = oldGestor.get();
             gestor.setNome(newGestor.getNome());
             gestor.setDataNascimento(newGestor.getDataNascimento());
@@ -52,11 +53,11 @@ public class GestorResource {
             repository.save(gestor);
             return new ResponseEntity<GestorModel>(gestor, HttpStatus.OK);
         }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("{id}")
-    public void deletarGestor(@PathVariable(value = "id") Integer id){
+    public void deletarGestor(@PathVariable(value = "id") Integer id) {
         Optional<GestorModel> gestor = repository.findById(id);
         if (gestor.isPresent()) {
             repository.deleteById(gestor.get().getId());
